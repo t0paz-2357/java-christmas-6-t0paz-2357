@@ -1,6 +1,6 @@
 package christmas;
 
-public enum restaurantMenu {
+public enum MainMenu {
 	
 }
 
