@@ -1,7 +1,7 @@
 package christmas;
 
 public enum MainMenu {
-	
+	STEAK("티본스테이크", 55000), RIB("바비큐립", 54000), SEAPASTA("해산물파스타", 35000), XMASPASTA("크리스마스파스타", 25000);
 }
 
 /*

@@ -1,7 +1,7 @@
 package christmas;
 
 public enum DessertMenu {
-	DESSERT_CHOCOLATECAKE("초코케이크", 15000), DESSERT_ICECREAM("아이스크림", 5000);
+	CHOCOLATECAKE("초코케이크", 15000), ICECREAM("아이스크림", 5000);
 
 	private String category = "DESSERT";
 	private String dessertName;
