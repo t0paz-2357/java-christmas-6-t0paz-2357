@@ -1,7 +1,7 @@
 package christmas;
 
 public enum AppetizerMenu {
-
+	
 }
 
 /*
