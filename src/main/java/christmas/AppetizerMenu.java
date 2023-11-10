@@ -1,7 +1,7 @@
 package christmas;
 
 public enum AppetizerMenu {
-	APPETIZER_MUSHROOMSOUP("양송이수프", 6000), APPETIZER_TAPAS("타파스", 5500), APPETIZER_SALAD("시저샐러드", 8000);
+	APPETIZER_MUSHROOMSOUP("양송이수프", 6000), APPETIZER_TAPAS("타파스", 5500), APPETIZER_CAESARSALAD("시저샐러드", 8000);
 
 	private String category = "APPETIZER";
 	private String appetizerName;
