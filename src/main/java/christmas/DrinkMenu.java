@@ -1,7 +1,7 @@
 package christmas;
 
 public enum DrinkMenu {
-	DRINK_ZEROCOKE("제로콜라", 3000), DRINK_REDWINE("레드와인", 60000), DRINK_CHAMPAIGNE("샴페인", 25000);
+	DRINK_ZEROCOKE("제로콜라", 3000), DRINK_REDWINE("레드와인", 60000), DRINK_CHAMPAGNE("샴페인", 25000);
 
 	private String category = "Drink";
 	private String drinkName;
