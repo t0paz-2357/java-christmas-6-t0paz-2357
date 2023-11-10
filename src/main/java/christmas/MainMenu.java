@@ -1,19 +1,17 @@
 package christmas;
 
 public enum MainMenu {
-	STEAK("티본스테이크", 55000), RIB("바비큐립", 54000), SEAPASTA("해산물파스타", 35000), XMASPASTA("크리스마스파스타", 25000);
+	STEAK("티본스테이크", 55000), RIB("바비큐립", 54000), SEAPASTA("해산물파스타", 35000), XMASPASTA("크리스마스파스타", 25000),
+	MUSHROOMSOUP("양송이수프", 6000), TAPAS("타파스", 5500), CAESARSALAD("시저샐러드", 8000),
+	ZEROCOKE("제로콜라", 3000), REDWINE("레드와인", 60000), CHAMPAGNE("샴페인", 25000),
+	CHOCOLATECAKE("초코케이크", 15000), ICECREAM("아이스크림", 5000);
 
-	private String category = "MAIN";
 	private String mainName;
 	private int mainPrice;
 
 	MainMenu(String mainName, int mainPrice) {
 		this.mainName = mainName;
 		this.mainPrice = mainPrice;
-	}
-
-	public String getCategory() {
-		return category;
 	}
 
 	public String getMainName() {
