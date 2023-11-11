@@ -9,7 +9,7 @@ public class InputView {
 	private static final int ORDER_MENU_COUNT = 1;
 
 	public int readDate() { // 방문 날짜 입력
-		System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!");
+		System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
 		int date = Integer.parseInt(Console.readLine());
 		if (date > 31 || date < 1)
 			throw new IllegalArgumentException();
