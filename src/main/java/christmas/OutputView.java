@@ -34,15 +34,27 @@ public class OutputView {
 	public void printEvents(HashMap<String, Integer> eventList) {
 		System.out.println();
 		System.out.println("<혜택 내역>");
-		eventList.forEach((key, value) -> {
-			System.out.println(key + ": -" + formatter.format(value) + "원");
-		});
+
+		if (!eventList.isEmpty()) {
+			eventList.forEach((key, value) -> {
+				System.out.println(key + ": -" + formatter.format(value) + "원");
+			});
+			return;
+		}
+		
+		System.out.println("없음");
 	}
 
 	public void printDiscountAmount(int totalDiscountPrice) {
 		System.out.println();
 		System.out.println("<총혜택 금액>");
-		System.out.println("-" + formatter.format(totalDiscountPrice) + "원");
+		
+		if (totalDiscountPrice > 0) {
+			System.out.println("-" + formatter.format(totalDiscountPrice) + "원");
+			return;
+		}
+		
+		System.out.println("0원");
 	}
 
 	public void printAfterTotalPrice(int finalCost) {
