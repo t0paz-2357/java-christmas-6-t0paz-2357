@@ -18,9 +18,10 @@ public class Service {
 	private int discountPrice = 0; // 할인 금액
 	private int offerChampagne = 0; // 증정용 샴페인
 	private String[] eventBadge = { "별", "트리", "산타" }; // 이벤트 배지
+	private int christmasDDayDiscountPrice = 1000; // 크리스마스 디데이 할인
 	private boolean isWeekday = false; // 평일 할인 여부 확인
 	private boolean isWeekend = false; // 주말 할인 여부 확인
-	private boolean isSpecialDay = false; // 특별 일자 할인 여부 확인
+	private boolean isSpecial = false; // 특별 일자 할인 여부 확인
 	private HashMap<String, Integer> eventDiscountList = new HashMap<String, Integer>(); // 받은 혜택 목록
 
 	public void start(InputView inputView, OutputView outputView) {
@@ -113,15 +114,28 @@ public class Service {
 	}
 
 	public void considerCalendar() {
-		Calendar.
+		isWeekday = Calendar.isWeekday(date);
+		isWeekend = Calendar.isWeekend(date);
+		isSpecial = Calendar.isSpecial(date);
+
 		if (isWeekend)
 			calculateWeekendDiscountCost();
 
 		if (isWeekday)
 			calculateWeekdayDiscountCost();
 
-		if (isSpecialDay)
+		if (isSpecial)
 			calculateSpecialDiscountCost();
+
+		if (date < 26)
+			calculateChristmasDDayDiscount();
+	}
+
+	public void calculateChristmasDDayDiscount() {
+		christmasDDayDiscountPrice += (date - 1) * 100;
+
+		discountPrice += christmasDDayDiscountPrice;
+		eventDiscountList.put("크리스마스 디데이 할인", christmasDDayDiscountPrice);
 	}
 
 	public void calculateWeekendDiscountCost() {
@@ -131,12 +145,13 @@ public class Service {
 		for (Order order : orderedMenu) {
 			menu = Menu.getOneMenu(order.getOrderMenuName());
 			if (menu.getMenuCategory().equals("메인")) {
-				discountMainPrice += DISCOUNT_MENU_PRICE;
+				discountMainPrice += DISCOUNT_MENU_PRICE * order.getOrderMenuCount();
 			}
 		}
 
 		discountPrice += discountMainPrice;
-		eventDiscountList.put("주말 할인", discountMainPrice);
+		if (discountMainPrice != 0)
+			eventDiscountList.put("주말 할인", discountMainPrice);
 	}
 
 	public void calculateWeekdayDiscountCost() {
@@ -146,12 +161,13 @@ public class Service {
 		for (Order order : orderedMenu) {
 			menu = Menu.getOneMenu(order.getOrderMenuName());
 			if (menu.getMenuCategory().equals("디저트")) {
-				discountDessertPrice += DISCOUNT_MENU_PRICE;
+				discountDessertPrice += DISCOUNT_MENU_PRICE * order.getOrderMenuCount();
 			}
 		}
 
 		discountPrice += discountDessertPrice;
-		eventDiscountList.put("평일 할인", discountDessertPrice);
+		if (discountDessertPrice != 0)
+			eventDiscountList.put("평일 할인", discountDessertPrice);
 	}
 
 	public void calculateSpecialDiscountCost() {
