@@ -19,7 +19,7 @@ public class OutputView {
 		}
 	}
 
-	public void printBeforeTotalPrice(int totalPrice) {
+	public void printBeforeDiscountPrice(int totalPrice) {
 		System.out.println();
 		System.out.println("<할인 전 총주문 금액>");
 		System.out.println(formatter.format(totalPrice) + "원");
@@ -57,7 +57,7 @@ public class OutputView {
 		System.out.println("0원");
 	}
 
-	public void printAfterTotalPrice(int finalCost) {
+	public void printAfterDiscountPrice(int finalCost) {
 		System.out.println();
 		System.out.println("<할인 후 예상 결제 금액");
 		System.out.println(formatter.format(finalCost) + "원");

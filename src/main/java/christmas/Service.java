@@ -5,9 +5,21 @@ import java.util.*;
 public class Service {
 	private InputView inputView;
 	private OutputView outputView;
+	private static final int OVER_5000 = 0;
+	private static final int OVER_10000 = 1;
+	private static final int OVER_20000 = 2;
 
 	private List<Order> orderedMenu = new ArrayList<Order>();
 	private int date;
+	private int totalPrice = 0; // 할인전 총금액
+	private int totalDiscountPrice = 0; // 총혜택 금액 = 할인 금액 + 증정용 금액
+	private int discountPrice = 0; // 할인 금액
+	private int offerChampagne = 0; // 증정용 샴페인
+	private String[] eventBadge = { "별", "트리", "산타" };
+	private int christmasDdayAmount = 1000; // 크리스마스 디데이 할인
+	private boolean isWeekday = false; // 평일 할인 여부 확인
+	private boolean isWeekend = false; // 주말 할인 여부 확인
+	private HashMap<String, Integer> eventDiscountList = new HashMap<String, Integer>(); // 받은 혜택 목록
 
 	public void start(InputView inputView, OutputView outputView) {
 		this.inputView = inputView;
@@ -22,8 +34,8 @@ public class Service {
 		inputOrder(); // 주문 입력
 		printVisitingDate(); // 방문 날짜 출력
 		printOrder(); // 주문 메뉴 출력
-		printCalculatedBeforeTotalPrice(); // 총주문 금액 출력
-		//considerCalendar(date, orderedMenu); // 달력 고려한 조건
+		printCalculatedBeforeDiscountPrice(); // 총주문 금액 출력
+		discountEvents();
 	}
 
 	public void inputCalendar() { // inputView
@@ -42,17 +54,64 @@ public class Service {
 		outputView.printOrderMenu(orderedMenu); // 주문 출력
 	}
 
-	public void printCalculatedBeforeTotalPrice() { // 할인전 총가격 계산
-		int totalPrice = 0;
-
+	public void printCalculatedBeforeDiscountPrice() { // 할인전 총가격 계산
 		for (Order order : orderedMenu) {
 			totalPrice += order.getOrderMenuPrice();
 		}
 
-		outputView.printBeforeTotalPrice(totalPrice);
+		outputView.printBeforeDiscountPrice(totalPrice);
 	}
 
-	public void considerCalendar(int date, List<Order> orderedList) {
-		
+	public void discountEvents() {
+		outputView.printOfferedChampagne(this.printOfferedChampagne()); // 증정 메뉴 출력
+		outputView.printEvents(this.saveAppliedEvents()); // 혜택 내역
+		outputView.printDiscountAmount(this.calculateDiscountCost()); // 총혜택 금액
+		outputView.printAfterDiscountPrice(this.printCalculatedAfterDiscountPrice()); // 할인 후 예상 결제 금액
+		outputView.printEventBadge(this.printEventBadge()); // 이벤트 배지
+	}
+
+	public void considerCalendar() {
+		Calendar.values();
+		// discountPrice
+	}
+
+	public String printOfferedChampagne() { // 증정 메뉴
+		offerChampagne = totalPrice / 120000;
+
+		if (offerChampagne > 0) {
+			eventDiscountList.put("증정 이벤트", Menu.CHAMPAGNE.getMenuPrice() * offerChampagne);
+			return "샴페인 " + offerChampagne + "개";
+		}
+
+		return "없음";
+	}
+
+	public HashMap<String, Integer> saveAppliedEvents() {
+		considerCalendar();
+		// eventDiscountList.put(appliedEvent, discountCost)
+
+		return eventDiscountList;
+	}
+
+	public int calculateDiscountCost() { // 총혜택 금액
+		totalDiscountPrice = discountPrice + Menu.CHAMPAGNE.getMenuPrice() * offerChampagne;
+		return totalDiscountPrice;
+	}
+
+	public int printCalculatedAfterDiscountPrice() { // 할인 후 예상 결제 금액
+		return totalPrice - discountPrice;
+	}
+
+	public String printEventBadge() { // 총혜택금액으로 배지
+		if (totalDiscountPrice >= 5000 && totalDiscountPrice < 10000)
+			return eventBadge[OVER_5000];
+
+		if (totalDiscountPrice >= 10000 && totalDiscountPrice < 20000)
+			return eventBadge[OVER_10000];
+
+		if (totalDiscountPrice >= 20000)
+			return eventBadge[OVER_20000];
+
+		return "없음";
 	}
 }
