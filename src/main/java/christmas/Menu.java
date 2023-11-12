@@ -3,20 +3,27 @@ package christmas;
 import java.util.*;
 
 public enum Menu {
-	STEAK("티본스테이크", 55000), RIB("바비큐립", 54000), SEAPASTA("해산물파스타", 35000), XMASPASTA("크리스마스파스타", 25000),
-	MUSHROOMSOUP("양송이수프", 6000), TAPAS("타파스", 5500), CAESARSALAD("시저샐러드", 8000), ZEROCOKE("제로콜라", 3000),
-	REDWINE("레드와인", 60000), CHAMPAGNE("샴페인", 25000), CHOCOLATECAKE("초코케이크", 15000), ICECREAM("아이스크림", 5000);
+	STEAK("티본스테이크", "메인", 55000), RIB("바비큐립", "메인", 54000), SEAPASTA("해산물파스타", "메인", 35000),
+	XMASPASTA("크리스마스파스타", "메인", 25000), MUSHROOMSOUP("양송이수프", "에피타이저", 6000), TAPAS("타파스", "에피타이저", 5500),
+	CAESARSALAD("시저샐러드", "에피타이저", 8000), ZEROCOKE("제로콜라", "음료", 3000), REDWINE("레드와인", "음료", 60000),
+	CHAMPAGNE("샴페인", "음료", 25000), CHOCOLATECAKE("초코케이크", "디저트", 15000), ICECREAM("아이스크림", "디저트", 5000);
 
 	private String menuName;
+	private String menuCategory;
 	private int menuPrice;
 
-	Menu(String menuName, int menuPrice) {
+	Menu(String menuName, String menuCategory, int menuPrice) {
 		this.menuName = menuName;
+		this.menuCategory = menuCategory;
 		this.menuPrice = menuPrice;
 	}
 
 	public String getMenuName() {
 		return menuName;
+	}
+
+	public String getMenuCategory() {
+		return menuCategory;
 	}
 
 	public int getMenuPrice() {
