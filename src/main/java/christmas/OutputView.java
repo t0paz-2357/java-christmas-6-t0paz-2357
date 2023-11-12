@@ -59,7 +59,7 @@ public class OutputView {
 
 	public void printAfterDiscountPrice(int finalCost) {
 		System.out.println();
-		System.out.println("<할인 후 예상 결제 금액");
+		System.out.println("<할인 후 예상 결제 금액>");
 		System.out.println(formatter.format(finalCost) + "원");
 	}
 
