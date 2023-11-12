@@ -5,7 +5,7 @@ import java.util.*;
 
 public class OutputView {
 	DecimalFormat formatter = new DecimalFormat("###,###");
-	
+
 	public void printVisitingDate(int date) {
 		System.out.println("12월 " + date + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
 	}
@@ -22,31 +22,38 @@ public class OutputView {
 	public void printBeforeTotalPrice(int totalPrice) {
 		System.out.println();
 		System.out.println("<할인 전 총주문 금액>");
-		System.out.println(formatter.format(totalPrice)+ "원"); 
+		System.out.println(formatter.format(totalPrice) + "원");
 	}
 
-	public void printFreeGiftMenu() {
+	public void printOfferedChampagne(String offeredChampagne) {
 		System.out.println();
 		System.out.println("<증정 메뉴>");
+		System.out.println(offeredChampagne);
 	}
 
-	public void printBenefits() {
+	public void printEvents(HashMap<String, Integer> eventList) {
 		System.out.println();
 		System.out.println("<혜택 내역>");
+		eventList.forEach((key, value) -> {
+			System.out.println(key + ": -" + formatter.format(value) + "원");
+		});
 	}
 
-	public void printDiscountAmount() {
+	public void printDiscountAmount(int totalDiscountPrice) {
 		System.out.println();
 		System.out.println("<총혜택 금액>");
+		System.out.println("-" + formatter.format(totalDiscountPrice) + "원");
 	}
 
-	public void printAfterTotalPrice() {
+	public void printAfterTotalPrice(int finalCost) {
 		System.out.println();
 		System.out.println("<할인 후 예상 결제 금액");
+		System.out.println(formatter.format(finalCost) + "원");
 	}
 
-	public void printEventBadge() {
+	public void printEventBadge(String eventBadge) {
 		System.out.println();
 		System.out.println("<12월 이벤트 배지>");
+		System.out.println(eventBadge);
 	}
 }
