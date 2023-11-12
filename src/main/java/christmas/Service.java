@@ -8,17 +8,19 @@ public class Service {
 	private static final int OVER_5000 = 0;
 	private static final int OVER_10000 = 1;
 	private static final int OVER_20000 = 2;
+	private static final int DISCOUNT_MENU_PRICE = 2023;
+	private static final int DISCOUNT_SPECIAL_PRICE = 1000;
 
-	private List<Order> orderedMenu = new ArrayList<Order>();
-	private int date;
+	private List<Order> orderedMenu = new ArrayList<Order>(); // 주문한 메뉴
+	private int date; // 날짜
 	private int totalPrice = 0; // 할인전 총금액
 	private int totalDiscountPrice = 0; // 총혜택 금액 = 할인 금액 + 증정용 금액
 	private int discountPrice = 0; // 할인 금액
 	private int offerChampagne = 0; // 증정용 샴페인
-	private String[] eventBadge = { "별", "트리", "산타" };
-	private int christmasDdayAmount = 1000; // 크리스마스 디데이 할인
+	private String[] eventBadge = { "별", "트리", "산타" }; // 이벤트 배지
 	private boolean isWeekday = false; // 평일 할인 여부 확인
 	private boolean isWeekend = false; // 주말 할인 여부 확인
+	private boolean isSpecialDay = false; // 특별 일자 할인 여부 확인
 	private HashMap<String, Integer> eventDiscountList = new HashMap<String, Integer>(); // 받은 혜택 목록
 
 	public void start(InputView inputView, OutputView outputView) {
@@ -70,11 +72,6 @@ public class Service {
 		outputView.printEventBadge(this.printEventBadge()); // 이벤트 배지
 	}
 
-	public void considerCalendar() {
-		Calendar.values();
-		// discountPrice
-	}
-
 	public String printOfferedChampagne() { // 증정 메뉴
 		offerChampagne = totalPrice / 120000;
 
@@ -86,13 +83,7 @@ public class Service {
 		return "없음";
 	}
 
-	public HashMap<String, Integer> saveAppliedEvents() {
-		considerCalendar();
-		// eventDiscountList.put(appliedEvent, discountCost)
-
-		return eventDiscountList;
-	}
-
+	// -------------------혜택 금액 계산=-----------------------
 	public int calculateDiscountCost() { // 총혜택 금액
 		totalDiscountPrice = discountPrice + Menu.CHAMPAGNE.getMenuPrice() * offerChampagne;
 		return totalDiscountPrice;
@@ -113,5 +104,61 @@ public class Service {
 			return eventBadge[OVER_20000];
 
 		return "없음";
+	}
+
+	// -------------------날짜 할인 계산=-----------------------
+	public HashMap<String, Integer> saveAppliedEvents() {
+		considerCalendar();
+		return eventDiscountList;
+	}
+
+	public void considerCalendar() {
+		Calendar.
+		if (isWeekend)
+			calculateWeekendDiscountCost();
+
+		if (isWeekday)
+			calculateWeekdayDiscountCost();
+
+		if (isSpecialDay)
+			calculateSpecialDiscountCost();
+	}
+
+	public void calculateWeekendDiscountCost() {
+		int discountMainPrice = 0;
+		Menu menu;
+
+		for (Order order : orderedMenu) {
+			menu = Menu.getOneMenu(order.getOrderMenuName());
+			if (menu.getMenuCategory().equals("메인")) {
+				discountMainPrice += DISCOUNT_MENU_PRICE;
+			}
+		}
+
+		discountPrice += discountMainPrice;
+		eventDiscountList.put("주말 할인", discountMainPrice);
+	}
+
+	public void calculateWeekdayDiscountCost() {
+		int discountDessertPrice = 0;
+		Menu menu;
+
+		for (Order order : orderedMenu) {
+			menu = Menu.getOneMenu(order.getOrderMenuName());
+			if (menu.getMenuCategory().equals("디저트")) {
+				discountDessertPrice += DISCOUNT_MENU_PRICE;
+			}
+		}
+
+		discountPrice += discountDessertPrice;
+		eventDiscountList.put("평일 할인", discountDessertPrice);
+	}
+
+	public void calculateSpecialDiscountCost() {
+		if (Calendar.isSpecial(date)) {
+			discountPrice += DISCOUNT_SPECIAL_PRICE;
+		}
+
+		eventDiscountList.put("특별 할인", DISCOUNT_SPECIAL_PRICE);
 	}
 }
