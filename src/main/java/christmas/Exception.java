@@ -8,7 +8,7 @@ public enum Exception {
 	
 	private String message;
 	
-	Exception(String meesage) {
+	Exception(String message) {
 		this.message = message;
 	}
 	

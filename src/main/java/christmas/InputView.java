@@ -10,10 +10,14 @@ public class InputView {
 
 	public int readDate() { // 방문 날짜 입력
 		System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
-		int date = Integer.parseInt(Console.readLine());
-		if (date > 31 || date < 1)
-			throw new IllegalArgumentException();
-		return date;
+		while (true) {
+			int date = Integer.parseInt(Console.readLine());
+			if (date > 31 || date < 1) {
+				System.out.println(Exception.DATE_INPUT_ERROR.getMessage());
+				continue;
+			}
+			return date;
+		}
 	}
 
 	public List<Order> readOrder() { // 메뉴와 개수 입력
