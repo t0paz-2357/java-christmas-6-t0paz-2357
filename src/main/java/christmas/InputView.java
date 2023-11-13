@@ -31,7 +31,8 @@ public class InputView {
 				String[] inputOrder = Console.readLine().split(",");
 				order = new ArrayList<Order>();
 				totalMenuCount = repeatAlgorithm(inputOrder, totalMenuCount, order);
-				if (totalMenuCount > LIMITED_COUNT || totalMenuCount == EXCEPTION_OCCURED || checkOnlyDrinks(order))
+				if (totalMenuCount > LIMITED_COUNT || totalMenuCount == EXCEPTION_OCCURED || checkOnlyDrinks(order)
+						|| checkIfSameMenuInput(order))
 					throw new IllegalArgumentException();
 				return order;
 			} catch (IllegalArgumentException e) {
@@ -44,12 +45,29 @@ public class InputView {
 		totalMenuCount = 0;
 		for (String input : inputOrder) {
 			String[] temp = input.split("-");
-			if (checkValidMenuName(temp[ORDER_MENU_NAME]) || checkValidMenuCount(temp[ORDER_MENU_COUNT]))
+			if (checkValidMenuName(temp[ORDER_MENU_NAME]) || checkValidMenuCount(temp[ORDER_MENU_COUNT])
+					|| Integer.parseInt(temp[ORDER_MENU_COUNT]) < 1 || checkIfSameMenuInput(order))
 				return EXCEPTION_OCCURED;
 			totalMenuCount += Integer.parseInt(temp[ORDER_MENU_COUNT]);
 			order.add(new Order(temp[ORDER_MENU_NAME], Integer.parseInt(temp[ORDER_MENU_COUNT])));
 		}
 		return totalMenuCount;
+	}
+
+	public boolean checkIfSameMenuInput(List<Order> orderList) {
+		Set<String> orderSet = new HashSet<String>();
+
+		try {
+			for (Order order : orderList)
+				orderSet.add(order.getOrderMenuName());
+			if (orderSet.size() != orderList.size())
+				throw new IllegalArgumentException();
+		} catch (IllegalArgumentException e) {
+			System.out.println(Exception.INVALID_MENU_INPUT_ERROR.getMessage());
+			return true;
+		}
+
+		return false;
 	}
 
 	public boolean checkOnlyDrinks(List<Order> orderList) {

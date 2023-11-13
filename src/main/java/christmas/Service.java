@@ -158,9 +158,8 @@ public class Service {
 
 		for (Order order : orderedMenu) {
 			menu = Menu.getOneMenu(order.getOrderMenuName());
-			if (menu.getMenuCategory().equals("메인")) {
+			if (menu.getMenuCategory().equals("메인"))
 				discountMainPrice += DISCOUNT_MENU_PRICE * order.getOrderMenuCount();
-			}
 		}
 
 		discountPrice += discountMainPrice;
@@ -174,9 +173,8 @@ public class Service {
 
 		for (Order order : orderedMenu) {
 			menu = Menu.getOneMenu(order.getOrderMenuName());
-			if (menu.getMenuCategory().equals("디저트")) {
+			if (menu.getMenuCategory().equals("디저트"))
 				discountDessertPrice += DISCOUNT_MENU_PRICE * order.getOrderMenuCount();
-			}
 		}
 
 		discountPrice += discountDessertPrice;
