@@ -73,7 +73,7 @@ class ApplicationTest extends NsTest {
 			assertThat(output()).contains("[ERROR] 음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요.");
 		});
 	}
-	
+
 	@Test
 	void 만원_미만_주문_테스트() {
 		assertSimpleTest(() -> {
@@ -81,12 +81,12 @@ class ApplicationTest extends NsTest {
 			assertThat(output()).contains("<혜택 내역>" + LINE_SEPARATOR + "없음");
 		});
 	}
-	
+
 	@Test
 	void 같은_메뉴_입력_테스트() {
 		assertSimpleTest(() -> {
 			run("3", "시저샐러드-1,시저샐러드-1");
-			assertThat(output()).contains("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+			assertThat(output()).contains("[ERROR] 음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요.");
 		});
 	}
 
