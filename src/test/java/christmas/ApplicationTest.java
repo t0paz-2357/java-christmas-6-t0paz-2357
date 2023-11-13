@@ -66,6 +66,22 @@ class ApplicationTest extends NsTest {
 		});
 	}
 
+	@Test
+	void 주문_음료만_테스트() {
+		assertSimpleTest(() -> { // 주문한 메뉴가 음료밖에 없을 경우
+			runException("26", "제로콜라-1");
+			assertThat(output()).contains("[ERROR] 음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요.");
+		});
+	}
+	
+	@Test
+	void 만원_미만_주문_테스트() {
+		assertSimpleTest(() -> {
+			run("3", "아이스크림-1");
+			assertThat(output()).contains("<혜택 내역>" + LINE_SEPARATOR + "없음");
+		});
+	}
+
 	@Override
 	protected void runMain() {
 		Application.main(new String[] {});
