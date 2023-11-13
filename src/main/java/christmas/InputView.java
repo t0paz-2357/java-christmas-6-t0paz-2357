@@ -10,6 +10,7 @@ public class InputView {
 	private static final int EXCEPTION_OCCURED = -1;
 	private static final int LIMITED_COUNT = 20;
 	private static int totalMenuCount = 0;
+	private static List<Order> order;
 
 	public int readDate() { // 방문 날짜 입력
 		System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
@@ -28,9 +29,9 @@ public class InputView {
 		while (true) {
 			try {
 				String[] inputOrder = Console.readLine().split(",");
-				List<Order> order = new ArrayList<Order>();
+				order = new ArrayList<Order>();
 				totalMenuCount = repeatAlgorithm(inputOrder, totalMenuCount, order);
-				if (totalMenuCount > LIMITED_COUNT || totalMenuCount == EXCEPTION_OCCURED)
+				if (totalMenuCount > LIMITED_COUNT || totalMenuCount == EXCEPTION_OCCURED || checkOnlyDrinks(order))
 					throw new IllegalArgumentException();
 				return order;
 			} catch (IllegalArgumentException e) {
@@ -43,9 +44,7 @@ public class InputView {
 		totalMenuCount = 0;
 		for (String input : inputOrder) {
 			String[] temp = input.split("-");
-			if (checkValidMenuName(temp[ORDER_MENU_NAME]))
-				return EXCEPTION_OCCURED;
-			if (checkValidMenuCount(temp[ORDER_MENU_COUNT]))
+			if (checkValidMenuName(temp[ORDER_MENU_NAME]) || checkValidMenuCount(temp[ORDER_MENU_COUNT]))
 				return EXCEPTION_OCCURED;
 			totalMenuCount += Integer.parseInt(temp[ORDER_MENU_COUNT]);
 			order.add(new Order(temp[ORDER_MENU_NAME], Integer.parseInt(temp[ORDER_MENU_COUNT])));
@@ -53,7 +52,21 @@ public class InputView {
 		return totalMenuCount;
 	}
 
-	public boolean checkValidDateInput(String date) {
+	public boolean checkOnlyDrinks(List<Order> orderList) {
+		int numOfDrinkMenu = 0;
+		for (Order order : orderList) {
+			if (Menu.getOneMenu(order.getOrderMenuName()).getMenuCategory().equals("음료"))
+				numOfDrinkMenu++;
+		}
+		if (numOfDrinkMenu == orderList.size()) {
+			System.out.println(Exception.ONLY_DRINK_NOT_ALLOWED_ERROR.getMessage());
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean checkValidDateInput(String date) { // 유효한 날짜 입력
 		int temp = 0;
 
 		try {

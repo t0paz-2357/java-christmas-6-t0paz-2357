@@ -86,6 +86,8 @@ public class Service {
 
 	// -------------------혜택 금액 계산=-----------------------
 	public int calculateDiscountCost() { // 총혜택 금액
+		if (isTotalCostLowerThanTenThousand())
+			discountPrice = 0;
 		totalDiscountPrice = discountPrice + Menu.CHAMPAGNE.getMenuPrice() * offerChampagne;
 		return totalDiscountPrice;
 	}
@@ -107,9 +109,21 @@ public class Service {
 		return "없음";
 	}
 
+	public boolean isTotalCostLowerThanTenThousand() {
+		int totalCostOfOrderedList = 0;
+		for (Order order : orderedMenu) {
+			totalCostOfOrderedList += order.getOrderMenuPrice();
+		}
+		if (totalCostOfOrderedList < 10000)
+			return true;
+		return false;
+	}
+
 	// -------------------날짜 할인 계산=-----------------------
 	public HashMap<String, Integer> saveAppliedEvents() {
 		considerCalendar();
+		if (isTotalCostLowerThanTenThousand())
+			eventDiscountList.clear();
 		return eventDiscountList;
 	}
 
