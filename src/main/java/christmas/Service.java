@@ -16,7 +16,7 @@ public class Service {
 	private int totalPrice = 0; // 할인전 총금액
 	private int totalDiscountPrice = 0; // 총혜택 금액 = 할인 금액 + 증정용 금액
 	private int discountPrice = 0; // 할인 금액
-	private int offerChampagne = 0; // 증정용 샴페인
+	private int offerChampagne = 1; // 증정용 샴페인
 	private String[] eventBadge = { "별", "트리", "산타" }; // 이벤트 배지
 	private int christmasDDayDiscountPrice = 1000; // 크리스마스 디데이 할인
 	private boolean isWeekday = false; // 평일 할인 여부 확인
@@ -74,9 +74,7 @@ public class Service {
 	}
 
 	public String printOfferedChampagne() { // 증정 메뉴
-		offerChampagne = totalPrice / 120000;
-
-		if (offerChampagne > 0) {
+		if (totalPrice >= 120000) {
 			eventDiscountList.put("증정 이벤트", Menu.CHAMPAGNE.getMenuPrice() * offerChampagne);
 			return "샴페인 " + offerChampagne + "개";
 		}
