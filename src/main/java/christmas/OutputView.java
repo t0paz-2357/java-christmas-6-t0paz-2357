@@ -14,9 +14,8 @@ public class OutputView {
 		System.out.println();
 		System.out.println("<주문 메뉴>");
 
-		for (Order order : orderedMenu) {
+		for (Order order : orderedMenu)
 			System.out.println(order.getOrderMenuName() + " " + order.getOrderMenuCount() + "개");
-		}
 	}
 
 	public void printBeforeDiscountPrice(int totalPrice) {

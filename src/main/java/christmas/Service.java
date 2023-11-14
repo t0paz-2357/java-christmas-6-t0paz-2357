@@ -19,9 +19,6 @@ public class Service {
 	private int offerChampagne = 1; // 증정용 샴페인
 	private String[] eventBadge = { "별", "트리", "산타" }; // 이벤트 배지
 	private int christmasDDayDiscountPrice = 1000; // 크리스마스 디데이 할인
-	private boolean isWeekday = false; // 평일 할인 여부 확인
-	private boolean isWeekend = false; // 주말 할인 여부 확인
-	private boolean isSpecial = false; // 특별 일자 할인 여부 확인
 	private HashMap<String, Integer> eventDiscountList = new HashMap<String, Integer>(); // 받은 혜택 목록
 
 	public void start(InputView inputView, OutputView outputView) {
@@ -58,9 +55,8 @@ public class Service {
 	}
 
 	public void printCalculatedBeforeDiscountPrice() { // 할인전 총가격 계산
-		for (Order order : orderedMenu) {
+		for (Order order : orderedMenu)
 			totalPrice += order.getOrderMenuPrice();
-		}
 
 		outputView.printBeforeDiscountPrice(totalPrice);
 	}
@@ -86,7 +82,9 @@ public class Service {
 	public int calculateDiscountCost() { // 총혜택 금액
 		if (isTotalCostLowerThanTenThousand())
 			discountPrice = 0;
+		
 		totalDiscountPrice = discountPrice + Menu.CHAMPAGNE.getMenuPrice() * offerChampagne;
+		
 		return totalDiscountPrice;
 	}
 
@@ -109,11 +107,13 @@ public class Service {
 
 	public boolean isTotalCostLowerThanTenThousand() {
 		int totalCostOfOrderedList = 0;
-		for (Order order : orderedMenu) {
+		
+		for (Order order : orderedMenu)
 			totalCostOfOrderedList += order.getOrderMenuPrice();
-		}
+		
 		if (totalCostOfOrderedList < 10000)
 			return true;
+		
 		return false;
 	}
 
@@ -126,19 +126,12 @@ public class Service {
 	}
 
 	public void considerCalendar() {
-		isWeekday = Calendar.isWeekday(date);
-		isWeekend = Calendar.isWeekend(date);
-		isSpecial = Calendar.isSpecial(date);
-
-		if (isWeekend)
+		if (Calendar.isWeekend(date))
 			calculateWeekendDiscountCost();
-
-		if (isWeekday)
+		if (Calendar.isWeekday(date))
 			calculateWeekdayDiscountCost();
-
-		if (isSpecial)
+		if (Calendar.isSpecial(date))
 			calculateSpecialDiscountCost();
-
 		if (date < 26)
 			calculateChristmasDDayDiscount();
 	}
@@ -181,9 +174,8 @@ public class Service {
 	}
 
 	public void calculateSpecialDiscountCost() {
-		if (Calendar.isSpecial(date)) {
+		if (Calendar.isSpecial(date))
 			discountPrice += DISCOUNT_SPECIAL_PRICE;
-		}
 
 		eventDiscountList.put("특별 할인", DISCOUNT_SPECIAL_PRICE);
 	}
